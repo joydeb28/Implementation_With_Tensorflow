@@ -81,7 +81,7 @@ with tf.Session() as sess:
     plt.legend()
     plt.show()
 
-    print("Testing... (Mean square loss Comparison)")
+    print("Testing... (Mean square loss Cokmparison)")
     testing_cost = sess.run(
         tf.reduce_sum(tf.pow(pred - Y, 2)) / (2 * test_X.shape[0]),
         feed_dict={X: test_X, Y: test_Y})  # same function as cost above
