@@ -16,3 +16,19 @@ batch_size = 100
 epochs = 100000
 display = 1
 
+x_train,y_train = mnist.train.next_batch(5000)
+x_test,y_test = mnist.test.next_batch(200)
+
+tr = tf.placeholder("float",[None,784])
+ts = tf.placeholder("float",[784])
+
+
+
+
+
+
+
+
+
+
+
