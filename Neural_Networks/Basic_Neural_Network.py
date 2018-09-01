@@ -25,14 +25,16 @@ num_cls = 10
 x = tf.placeholder('float',[None,num_input])
 y = tf.placeholder('float',[None,num_cls])
 
-weights = 
-        {
-        
+weights = {
+        'h1': tf.Variable(tf.random_normal([num_input,num_hidden_1])),
+        'h2': tf.Variable(tf.random_normal([num_hidden_1,num_hidden_2])),
+        'out': tf.Variable(tf.random_normal([num_hidden_2,num_cls]))
         }
 
-Bias = 
-        {
-                
+Bias = {
+                'b1':tf.Variable(tf.random_normal([num_hidden_1])),
+                'b2':tf.Variable(tf.random_normal([num_hidden_2])),
+                'out':tf.Variable(tf.random_normal([num_cls])),
         }
 
 
