@@ -13,12 +13,14 @@ from tensorflow.examples.tutorials.mnist import input_data
 mnist = input_data.read_data_sets('../MNIST/',one_hot = True)
 
 learning_rate = 0.1
-num_steps = 5000
+num_steps = 2000
 batch_size = 128
 display_step = 100
 
 num_hidden_1 = 256
 num_hidden_2 = 256
+num_hidden_3 = 256
+
 num_input = 784
 num_cls = 10 
 
@@ -28,13 +30,15 @@ y = tf.placeholder('float',[None,num_cls])
 weights = {
             'h1': tf.Variable(tf.random_normal([num_input,num_hidden_1])),
             'h2': tf.Variable(tf.random_normal([num_hidden_1,num_hidden_2])),
-            'out': tf.Variable(tf.random_normal([num_hidden_2,num_cls]))
+            'h3': tf.Variable(tf.random_normal([num_hidden_2,num_hidden_3])),
+            'out': tf.Variable(tf.random_normal([num_hidden_3,num_cls]))
         }
 
 
 bias = {
             'b1':tf.Variable(tf.random_normal([num_hidden_1])),
             'b2':tf.Variable(tf.random_normal([num_hidden_2])),
+            'b3':tf.Variable(tf.random_normal([num_hidden_3])),
             'out':tf.Variable(tf.random_normal([num_cls])),
         }
 
@@ -47,7 +51,9 @@ def neural_net(x):
     
     layer2 = tf.add(tf.matmul(layer1,weights['h2']),bias['b2'])
     
-    output_layer = tf.add(tf.matmul(layer2,weights['out']),bias['out'])
+    layer3 = tf.add(tf.matmul(layer2,weights['h3']),bias['b3'])
+    
+    output_layer = tf.add(tf.matmul(layer3,weights['out']),bias['out'])
     
     return output_layer
 
