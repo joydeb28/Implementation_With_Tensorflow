@@ -42,15 +42,25 @@ bias = {
 
 
 def neural_net():
+    
     layer1 = tf.add(tf.matmul(x,weights['h1']),bias['b1'])
+    
     layer2 = tf.add(tf.matmul(layer1,weights['h2']),bias['b2'])
+    
     output_layer = tf.add(tf.matmul(layer2,weights['out']),bias['out'])
+    
     return output_layer
 
+logits = neural_net(x)
 
+loss = tf.reduce_mean(tf.nn.softmax_cross_entropy_with_logits(logits = logits,labels = y))
+optimizer = tf.train.AdamOptimizer(learning_rate=learning_rate)
+train_op = optimizer.minimize(loss)
 
+correct_pred = tf.equal(tf.argmax(logits,1),tf.argmax(y,1))
+accuracy = tf.reduce_mean(tf.cast(correct_pred,tf.float32))
 
-
+init = tf.global_variables_initializer()
 
 
 
