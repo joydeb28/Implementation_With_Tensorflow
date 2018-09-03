@@ -32,7 +32,7 @@ weights = {
         }
 
 
-Bias = {
+bias = {
             'b1':tf.Variable(tf.random_normal([num_hidden_1])),
             'b2':tf.Variable(tf.random_normal([num_hidden_2])),
             'out':tf.Variable(tf.random_normal([num_cls])),
@@ -41,7 +41,11 @@ Bias = {
 
 
 
-
+def neural_net():
+    layer1 = tf.add(tf.matmul(x,weights['h1']),bias['b1'])
+    layer2 = tf.add(tf.matmul(layer1,weights['h2']),bias['b2'])
+    output_layer = tf.add(tf.matmul(layer2,weights['out']),bias['out'])
+    return output_layer
 
 
 
