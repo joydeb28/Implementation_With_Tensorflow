@@ -12,8 +12,8 @@ from tensorflow.examples.tutorials.mnist import input_data
 tf.reset_default_graph()
 mnist = input_data.read_data_sets("../MNIST/",one_hot = True)
 
-learning_rate = 0.0001
-training_steps = 1000
+learning_rate = 0.001
+training_steps = 10000
 batch_size = 128
 display_size = 200
 
