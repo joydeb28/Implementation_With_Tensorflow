@@ -36,14 +36,17 @@ py_x = model(X, w_h, w_o)
 cost = tf.reduce_mean(tf.nn.softmax_cross_entropy_with_logits(logits = py_x,labels = Y))
 train_op = tf.train.GradientDescentOptimizer(0.05).minimize(cost)
 
+saver = tf.train.Saver()
+
 predict_op = tf.argmax(py_x, 1)
 
 def predict(i, prediction):
     return ["odd", "even"][prediction]
 
+'''
 with tf.Session() as sess:
     tf.initialize_all_variables().run()
-    for epoch in range(1000):
+    for epoch in range(100):
         p = np.random.permutation(range(len(trX)))
         trX, trY = trX[p], trY[p]
         
@@ -57,5 +60,27 @@ with tf.Session() as sess:
             teX = np.transpose(binary_encode(numbers, NUM_DIGITS))
             teY = sess.run(predict_op, feed_dict={X: teX})
             output = np.vectorize(predict)(numbers, teY)
-
+            save_path = saver.save(sess, "odd_even_models/model")
+            print("Model saved in path: %s" % save_path)
             print(output)
+'''
+sess = tf.Session()
+init = tf.global_variables_initializer()
+sess.run(init)
+for epoch in range(100):
+    p = np.random.permutation(range(len(trX)))
+    trX, trY = trX[p], trY[p]
+    
+    BATCH_SIZE = 128
+    for start in range(0, len(trX), BATCH_SIZE):
+        end = start + BATCH_SIZE
+        sess.run(train_op, feed_dict={X: trX[start:end], Y: trY[start:end]})
+        print(epoch, np.mean(np.argmax(trY, axis=1) ==
+                         sess.run(predict_op, feed_dict={X: trX, Y: trY})))
+        numbers = np.arange(1, 101)
+        teX = np.transpose(binary_encode(numbers, NUM_DIGITS))
+        teY = sess.run(predict_op, feed_dict={X: teX})
+        output = np.vectorize(predict)(numbers, teY)
+        #save_path = saver.save(sess, "odd_even_models/model")
+        #print("Model saved in path: %s" % save_path)
+        print(output)
